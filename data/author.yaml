@@ -1,0 +1,6 @@
+# Diese Datei speist Autorenbox, Über-uns-Seite und Person-Schema.
+# Echte Qualifikationen (Studium, Berufserfahrung) nur ergänzen, wenn sie zutreffen.
+name: "Humphrey Reese"
+jobTitle: "Autor und Herausgeber"
+bio: "Schreibt über Geometrie und Alltagsmathematik. Erklärt Formeln verständlich, prüft sie gegen Fachquellen und testet jeden Rechner mit bekannten Beispielwerten."
+bioLong: "Humphrey Reese schreibt und betreut Umfang berechnen. Der Schwerpunkt liegt auf Geometrie und Alltagsmathematik: Umfang, Fläche und die Frage, wie man sie ohne Umwege berechnet. Er verantwortet alle Inhalte dieser Website. Formeln werden gegen Fachquellen wie die Formelsammlung Geometrie geprüft, und der Rechner wird mit bekannten Beispielwerten getestet. Hinweise auf Fehler nimmt er jederzeit über die Kontaktseite entgegen."

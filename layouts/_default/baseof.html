@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.LanguageCode }}">
+<head>
+{{ partial "head.html" . }}
+</head>
+<body>
+<a class="skip" href="#main">Zum Inhalt springen</a>
+{{ partial "header.html" . }}
+<main id="main" class="wrap">
+{{ block "main" . }}{{ end }}
+</main>
+{{ partial "footer.html" . }}
+{{ $js := resources.Get "js/menu.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" defer></script>
+</body>
+</html>

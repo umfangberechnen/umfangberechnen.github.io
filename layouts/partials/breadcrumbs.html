@@ -1,0 +1,20 @@
+{{- if not .IsHome }}
+{{- $items := slice (dict "@type" "ListItem" "position" 1 "name" "Startseite" "item" site.Home.Permalink) }}
+{{- range .Ancestors.Reverse }}
+  {{- if not .IsHome }}
+    {{- $items = $items | append (dict "@type" "ListItem" "position" (add (len $items) 1) "name" .LinkTitle "item" .Permalink) }}
+  {{- end }}
+{{- end }}
+{{- $items = $items | append (dict "@type" "ListItem" "position" (add (len $items) 1) "name" .LinkTitle "item" .Permalink) }}
+<nav class="crumbs" aria-label="Brotkrumen">
+  <ol>
+    <li><a href="{{ site.Home.RelPermalink }}">Startseite</a></li>
+    {{- range .Ancestors.Reverse }}{{ if not .IsHome }}
+    <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
+    {{- end }}{{ end }}
+    <li aria-current="page">{{ .LinkTitle }}</li>
+  </ol>
+</nav>
+{{- $ld := dict "@context" "https://schema.org" "@type" "BreadcrumbList" "itemListElement" $items }}
+<script type="application/ld+json">{{ $ld | jsonify | safeJS }}</script>
+{{- end }}

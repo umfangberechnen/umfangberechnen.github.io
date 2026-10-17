@@ -1,0 +1,33 @@
+{{ define "main" }}
+{{ partial "breadcrumbs.html" . }}
+<article class="prose">
+  <header class="page-head">
+    <h1>{{ .Title }}</h1>
+  </header>
+  {{ with .Params.answer }}<p class="answer">{{ . }}</p>{{ end }}
+  {{ .Content }}
+  <p class="cta"><a class="btn" href="{{ "/#rechner" | relURL }}">Umfang jetzt berechnen</a></p>
+  {{ with .Params.related }}
+  <section class="related">
+    <h2>Verwandte Begriffe</h2>
+    <ul>
+      {{- range . }}{{ with site.GetPage (printf "/glossar/%s" .) }}
+      <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+      {{- end }}{{ end }}
+    </ul>
+  </section>
+  {{ end }}
+  {{ with .Params.sources }}
+  <section class="sources">
+    <h2>Quellen</h2>
+    <ul>
+      {{- range . }}
+      <li><a href="{{ .url }}" rel="noopener">{{ .title }}</a></li>
+      {{- end }}
+    </ul>
+  </section>
+  {{ end }}
+  {{ partial "author-box.html" . }}
+  <p class="updated">Zuletzt aktualisiert: {{ .Lastmod | time.Format ":date_long" }}</p>
+</article>
+{{ end }}

@@ -1,0 +1,11 @@
+{{ define "main" }}
+<header class="page-head">
+  <h1>{{ .Title }}</h1>
+  {{ with .Params.lead }}<p class="lead">{{ . }}</p>{{ end }}
+</header>
+{{ partial "calculator.html" . }}
+<article class="prose">
+  {{ .Content }}
+  {{ partial "author-box.html" . }}
+</article>
+{{ end }}

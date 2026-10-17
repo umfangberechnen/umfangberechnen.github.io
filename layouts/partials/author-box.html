@@ -1,0 +1,6 @@
+{{- with site.Data.author }}
+<aside class="author-box" aria-label="Über den Autor">
+  <p class="author-name"><a href="{{ "/ueber-uns/" | relURL }}">{{ .name }}</a> · {{ .jobTitle }}</p>
+  <p>{{ .bio }}</p>
+</aside>
+{{- end }}

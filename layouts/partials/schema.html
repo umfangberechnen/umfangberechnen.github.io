@@ -1,0 +1,39 @@
+{{- $home := site.Home }}
+{{- $img := site.Params.ogImage | absURL }}
+{{- $publisher := dict "@type" "Organization" "name" site.Title "url" $home.Permalink "logo" (dict "@type" "ImageObject" "url" (site.Params.logo | absURL)) }}
+{{- $author := $publisher }}
+{{- with site.Data.author }}
+  {{- $author = dict "@type" "Person" "name" .name "url" ("ueber-uns/" | absURL) "jobTitle" .jobTitle "description" .bio }}
+{{- end }}
+{{- $graph := slice }}
+
+{{- if .IsHome }}
+  {{- $website := dict "@type" "WebSite" "@id" (printf "%s#website" $home.Permalink) "url" $home.Permalink "name" site.Title "inLanguage" "de-DE" "publisher" $publisher }}
+  {{- $page := dict "@type" "WebPage" "@id" (printf "%s#webpage" .Permalink) "url" .Permalink "name" (.Params.seoTitle | default site.Params.homeTitle) "description" (.Params.description | default site.Params.description) "inLanguage" "de-DE" "isPartOf" (dict "@id" (printf "%s#website" $home.Permalink)) "dateModified" (.Lastmod.Format "2006-01-02") "primaryImageOfPage" (dict "@type" "ImageObject" "url" $img) }}
+  {{- $app := dict "@type" "WebApplication" "name" "Umfang Rechner" "url" (printf "%s#rechner" .Permalink) "description" "Kostenloser Online-Rechner für den Umfang von Kreis, Rechteck, Quadrat, Dreieck, Parallelogramm, Raute, Trapez, Ellipse und regelmäßigem Vieleck – mit Rechenweg." "applicationCategory" "EducationalApplication" "operatingSystem" "Alle (Webbrowser)" "browserRequirements" "Erfordert JavaScript" "inLanguage" "de-DE" "isAccessibleForFree" true "offers" (dict "@type" "Offer" "price" "0" "priceCurrency" "EUR") "publisher" $publisher }}
+  {{- $graph = slice $website $publisher $page $app }}
+
+{{- else if and .IsPage (eq .Section "glossar") }}
+  {{- $hub := site.GetPage "/glossar" }}
+  {{- $desc := .Params.answer | default .Params.description }}
+  {{- $article := dict "@type" "Article" "headline" .Title "description" $desc "inLanguage" "de-DE" "datePublished" (.Date.Format "2006-01-02") "dateModified" (.Lastmod.Format "2006-01-02") "mainEntityOfPage" (dict "@type" "WebPage" "@id" .Permalink) "author" $author "publisher" $publisher "image" $img }}
+  {{- $term := dict "@type" "DefinedTerm" "name" (.Params.term | default .Title) "description" $desc "url" .Permalink "inDefinedTermSet" (dict "@type" "DefinedTermSet" "name" $hub.Title "url" $hub.Permalink) }}
+  {{- $graph = slice $article $term }}
+
+{{- else if and (eq .Kind "section") (eq .Section "glossar") }}
+  {{- $items := slice }}
+  {{- range $i, $p := .Pages.ByWeight }}
+    {{- $items = $items | append (dict "@type" "ListItem" "position" (add $i 1) "name" $p.Title "url" $p.Permalink) }}
+  {{- end }}
+  {{- $coll := dict "@type" "CollectionPage" "name" .Title "description" .Params.description "url" .Permalink "inLanguage" "de-DE" "isPartOf" (dict "@type" "WebSite" "name" site.Title "url" $home.Permalink) "mainEntity" (dict "@type" "ItemList" "itemListElement" $items) }}
+  {{- $graph = slice $coll }}
+
+{{- else }}
+  {{- $type := .Params.schemaType | default "WebPage" }}
+  {{- $page := dict "@type" $type "name" .Title "description" .Params.description "url" .Permalink "inLanguage" "de-DE" "isPartOf" (dict "@type" "WebSite" "name" site.Title "url" $home.Permalink) }}
+  {{- if not .Lastmod.IsZero }}{{ $page = merge $page (dict "dateModified" (.Lastmod.Format "2006-01-02")) }}{{ end }}
+  {{- $graph = slice $page }}
+{{- end }}
+
+{{- $ld := dict "@context" "https://schema.org" "@graph" $graph }}
+<script type="application/ld+json">{{ $ld | jsonify | safeJS }}</script>

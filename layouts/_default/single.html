@@ -1,0 +1,10 @@
+{{ define "main" }}
+{{ partial "breadcrumbs.html" . }}
+<article class="prose">
+  <header class="page-head">
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.lead }}<p class="lead">{{ . }}</p>{{ end }}
+  </header>
+  {{ .Content }}
+</article>
+{{ end }}

@@ -1,0 +1,52 @@
+<section id="rechner" class="calc" aria-labelledby="rechner-titel">
+  <div class="calc-card">
+    <h2 id="rechner-titel" class="visually-hidden">Umfang Rechner</h2>
+
+    <div class="calc-top">
+      <div>
+        <label for="calc-shape">Form</label>
+        <select id="calc-shape">
+          <option value="kreis_r">Kreis (Radius bekannt)</option>
+          <option value="kreis_d">Kreis (Durchmesser bekannt)</option>
+          <option value="kreis_a">Kreis (Fläche bekannt)</option>
+          <option value="rechteck">Rechteck</option>
+          <option value="quadrat">Quadrat</option>
+          <option value="dreieck">Dreieck</option>
+          <option value="parallelogramm">Parallelogramm</option>
+          <option value="raute">Raute</option>
+          <option value="trapez">Trapez</option>
+          <option value="ellipse">Ellipse</option>
+          <option value="vieleck">Regelmäßiges Vieleck</option>
+        </select>
+      </div>
+      <div>
+        <label for="calc-unit">Einheit</label>
+        <select id="calc-unit">
+          <option value="mm">mm</option>
+          <option value="cm" selected>cm</option>
+          <option value="dm">dm</option>
+          <option value="m">m</option>
+          <option value="km">km</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="calc-grid">
+      <div id="calc-fields" class="fields"></div>
+      <div id="calc-diagram" class="diag" aria-hidden="true"></div>
+    </div>
+
+    <div class="calc-result">
+      <p class="res-label">Umfang</p>
+      <p class="res-value" id="calc-value" aria-live="polite">–</p>
+      <p class="res-formula" id="calc-formula"></p>
+      <ul class="res-steps" id="calc-steps"></ul>
+      <p class="res-note" id="calc-note"></p>
+      <p class="res-msg" id="calc-msg" aria-live="polite"></p>
+      <button class="btn btn-ghost" type="button" id="calc-copy" hidden>Ergebnis kopieren</button>
+    </div>
+    <noscript><p class="res-msg">Für den Rechner wird JavaScript benötigt. Die Formeln findest du im Artikel unten.</p></noscript>
+  </div>
+  {{ $calc := resources.Get "js/calculator.js" | minify | fingerprint }}
+  <script src="{{ $calc.RelPermalink }}" defer></script>
+</section>

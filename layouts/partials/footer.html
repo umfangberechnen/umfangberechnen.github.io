@@ -1,0 +1,13 @@
+<footer class="site-footer">
+  <div class="wrap">
+    <nav aria-label="Rechtliches und Informationen">
+      <ul class="foot-links">
+        {{- range site.Menus.footer }}
+        <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+        {{- end }}
+      </ul>
+    </nav>
+    <p class="foot-note">Alle Angaben ohne Gewähr. Die Ergebnisse des Rechners dienen der Orientierung und ersetzen keine fachliche Prüfung.</p>
+    <p class="foot-note">© {{ now.Year }} {{ site.Title }}</p>
+  </div>
+</footer>
